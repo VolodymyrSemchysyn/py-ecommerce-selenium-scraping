@@ -58,26 +58,38 @@ def parse_products_on_page(
 
 
 def get_title(product_element: webdriver.Chrome) -> str:
-    return product_element.find_element(
-        By.CLASS_NAME,
-        "title"
-    ).get_attribute("title")
+    try:
+        return product_element.find_element(
+            By.CLASS_NAME,
+            "title"
+        ).get_attribute("title")
+    except NoSuchElementException:
+        pass
 
 
 def get_price(product_element: webdriver.Chrome) -> float:
-    price_text = product_element.find_element(By.CLASS_NAME, "price").text
-    return float(price_text.replace("$", ""))
+    try:
+        price_text = product_element.find_element(By.CLASS_NAME, "price").text
+        return float(price_text.replace("$", ""))
+    except NoSuchElementException:
+        pass
 
 
 def get_description(product_element: webdriver.Chrome) -> str:
-    return product_element.find_element(By.CLASS_NAME, "description").text
+    try:
+        return product_element.find_element(By.CLASS_NAME, "description").text
+    except NoSuchElementException:
+        pass
 
 
 def get_rating(product_element: webdriver.Chrome) -> int:
-    return len(product_element.find_elements(
-        By.CSS_SELECTOR,
-        "p:nth-of-type(2) > span")
-    )
+    try:
+        return len(product_element.find_elements(
+            By.CSS_SELECTOR,
+            "p:nth-of-type(2) > span")
+        )
+    except NoSuchElementException:
+        pass
 
 
 def get_review_count(product: webdriver.Chrome) -> int:
